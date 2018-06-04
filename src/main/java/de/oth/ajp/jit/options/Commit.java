@@ -3,9 +3,10 @@ package de.oth.ajp.jit.options;
 
 import de.oth.ajp.jit.core.FileManager;
 import de.oth.ajp.jit.core.Option;
-import de.oth.ajp.jit.utils.CollectionsUtils;
 
 import java.util.Map;
+
+import static de.oth.ajp.jit.utils.CollectionsUtils.lastEntry;
 
 public class Commit implements Option {
 
@@ -19,13 +20,13 @@ public class Commit implements Option {
     public void runProcess() {
         FileManager.editStagingFile(staging -> {
             if (staging.isEmpty()) {
-                printError();
+                nothingToCommit();
                 return;
             }
 
             Map<String, String> hashedTree = staging.getHashedTree();
-            hashedTree.forEach((name, content) -> FileManager.createCommitFile(name, content));
-            Map.Entry<String, String> firstFile = CollectionsUtils.lastEntry(hashedTree);
+            hashedTree.forEach(FileManager::createCommitFile);
+            Map.Entry<String, String> firstFile = lastEntry(hashedTree);
             String fileName = firstFile.getKey();
             String fileContent = String.format(firstFile.getValue(), message);
             FileManager.createCommitFile(fileName, fileContent);

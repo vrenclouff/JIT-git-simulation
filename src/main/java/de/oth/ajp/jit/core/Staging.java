@@ -48,10 +48,6 @@ public class Staging implements Serializable {
         this.graph.remove(FileUtils.convertToDescriptors(path, pathDelimiter));
     }
 
-    public void clean() {
-        this.graph.clean();
-    }
-
     public void removeStaging() {
         remove = true;
     }

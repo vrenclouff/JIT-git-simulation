@@ -43,17 +43,6 @@ public class FileNode extends Node<FileDescriptor> {
         return hashContent;
     }
 
-    public void path(StringBuilder builder, List<String> paths, String delimiter) {
-        switch (getValue().getType()) {
-            case FILE:      paths.add(builder.toString() + getValue().getName());   break;
-            case DIRECTORY: builder.append(getValue().getName()).append(delimiter); break;
-        }
-
-        for (Node<FileDescriptor> item : getChildren()) {
-            ((FileNode) item).path(builder, paths, delimiter);
-        }
-    }
-
     private String[] buildFilePathComponents() {
         Node<FileDescriptor> parent = getParent();
         List<String> pathComponents = new ArrayList<>();

@@ -100,7 +100,7 @@ class LinkedTreeTest {
         tree.add(FileUtils.convertToDescriptors("src/de/A.java", "/"));
 
         List<String> paths = new LinkedList<>();
-        root.path(new StringBuilder(), paths, "/");
+        //root.path(new StringBuilder(), paths, "/");
 
         assertEquals(2, paths.size());
         assertEquals("./src/de/B.java",  paths.get(0));

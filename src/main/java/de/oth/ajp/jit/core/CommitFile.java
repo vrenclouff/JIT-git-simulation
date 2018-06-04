@@ -1,7 +1,6 @@
 package de.oth.ajp.jit.core;
 
 
-
 import java.util.List;
 
 import static de.oth.ajp.jit.utils.StringUtils.ANSI_RESET;
@@ -30,18 +29,10 @@ public class CommitFile {
         return files;
     }
 
-    /*
-     *  commit 42a748778a50f8fe141000978705676ee827e40f
-     *  Date:   Thu May 17 10:27:10 2018 +0200
-     *
-     *      Refactored modes and added javadoc
-     */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(ANSI_YELLOW).append("commit ").append(commitHash).append(ANSI_RESET).append(NEW_LINE);
-        builder.append("Date: ").append(createdDate).append("\n");
-        builder.append("\n\t").append(message).append("\n\n");
-        return builder.toString();
+        return ANSI_YELLOW + "commit " + commitHash + ANSI_RESET + NEW_LINE +
+                "Date: " + createdDate + "\n" +
+                "\n\t" + message + "\n\n";
     }
 }

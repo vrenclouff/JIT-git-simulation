@@ -2,8 +2,9 @@ package de.oth.ajp.jit.tree.linked;
 
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Stack;
+
+import static de.oth.ajp.jit.utils.CollectionsUtils.forEachReverse;
 
 class LinkedBreadthIterator<T extends Serializable> implements LinkedIterator {
 
@@ -21,10 +22,7 @@ class LinkedBreadthIterator<T extends Serializable> implements LinkedIterator {
     @Override
     public T next() {
         Node<T> node = stack.pop();
-        List<Node<T>> children = node.getChildren();
-        for (int i = children.size() - 1; i >= 0; i--) {
-            stack.add(children.get(i));
-        }
+        forEachReverse(node.getChildren(), stack::add);
         return node.getValue();
     }
 }

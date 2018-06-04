@@ -5,7 +5,7 @@ import java.io.*;
 
 public class SerializableUtils {
 
-    public static <A> byte[] toBytes(A object) {
+    public static <A extends Serializable> byte[] toBytes(A object) {
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             new ObjectOutputStream(byteStream).writeObject(object);
@@ -16,9 +16,9 @@ public class SerializableUtils {
         }
     }
 
-    public static <A> A toObject(Class<A> aClass, byte[] bytes) {
+    public static <A extends Serializable> A toObject(Class<A> aClass, byte[] bytes) {
         try {
-            return (A)new ObjectInputStream(new ByteArrayInputStream(bytes)).readObject();
+            return (A) new ObjectInputStream(new ByteArrayInputStream(bytes)).readObject();
         } catch (IOException | ClassNotFoundException e) {
             return null;
         }

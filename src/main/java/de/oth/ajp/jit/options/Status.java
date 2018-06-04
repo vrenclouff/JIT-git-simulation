@@ -12,21 +12,6 @@ import static de.oth.ajp.jit.utils.StringUtils.ANSI_RED;
 import static de.oth.ajp.jit.utils.StringUtils.ANSI_RESET;
 import static java.util.List.of;
 
-/*
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-	modified:   src/main/java/de/oth/ajp/mocker/MockerInterceptor.java
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	modified:   src/main/java/de/oth/ajp/mocker/modes/AtLeast.java
-	modified:   src/main/java/de/oth/ajp/mocker/modes/AtMost.java
-	modified:   src/main/java/de/oth/ajp/mocker/utils/ProxyUtils.java
-
- */
 
 public class Status implements Option {
 
