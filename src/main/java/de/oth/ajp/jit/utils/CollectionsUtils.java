@@ -15,7 +15,7 @@ public class CollectionsUtils {
     }
 
     public static Map.Entry lastEntry(Map map) {
-        List<Map.Entry<String,Integer>> entryList = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
+        List<Map.Entry<String,Integer>> entryList = new ArrayList<>(map.entrySet());
         return entryList.get(entryList.size()-1);
     }
 }

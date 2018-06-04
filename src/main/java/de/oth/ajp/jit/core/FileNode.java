@@ -44,7 +44,6 @@ public class FileNode extends Node<FileDescriptor> {
     }
 
     public void path(StringBuilder builder, List<String> paths, String delimiter) {
-
         switch (getValue().getType()) {
             case FILE:      paths.add(builder.toString() + getValue().getName());   break;
             case DIRECTORY: builder.append(getValue().getName()).append(delimiter); break;

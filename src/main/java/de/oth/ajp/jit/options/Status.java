@@ -1,11 +1,12 @@
 package de.oth.ajp.jit.options;
 
-import de.oth.ajp.jit.core.FileManager;
 import de.oth.ajp.jit.core.Option;
 import de.oth.ajp.jit.core.Staging;
 
 import java.util.List;
 
+import static de.oth.ajp.jit.core.FileManager.loadAllFiles;
+import static de.oth.ajp.jit.core.FileManager.loadStagingFile;
 import static de.oth.ajp.jit.utils.StringUtils.ANSI_GREEN;
 import static de.oth.ajp.jit.utils.StringUtils.ANSI_RED;
 import static de.oth.ajp.jit.utils.StringUtils.ANSI_RESET;
@@ -48,8 +49,8 @@ public class Status implements Option {
     @Override
     public void runProcess() {
 
-        List<String> trackedFiles = FileManager.loadStagingFile().map(Staging::getTrackedFiles).orElse(of());
-        List<String> allFiles = FileManager.loadAllFiles();
+        List<String> trackedFiles = loadStagingFile().map(Staging::getTrackedFiles).orElse(of());
+        List<String> allFiles = loadAllFiles();
 
         allFiles.removeAll(trackedFiles);
 
@@ -59,9 +60,11 @@ public class Status implements Option {
             trackedFiles.forEach(f -> System.out.println("\t\t" + JitFileStatus.TRACKED.format(f)));
         }
 
-        System.out.println("\nChanges not staged for commit:");
-        System.out.println("\t(use \"jit add <file>...\" to update what will be committed)\n");
-        allFiles.forEach(f -> System.out.println("\t\t"+JitFileStatus.UNTRACKED.format(f)));
+        if (!allFiles.isEmpty()) {
+            System.out.println("\nChanges not staged for commit:");
+            System.out.println("\t(use \"jit add <file>...\" to update what will be committed)\n");
+            allFiles.forEach(f -> System.out.println("\t\t" + JitFileStatus.UNTRACKED.format(f)));
+        }
 
         if (trackedFiles.isEmpty()) {
             System.out.println("\nno changes added to commit (use \"jit add\" and/or \"jit commit\")");
