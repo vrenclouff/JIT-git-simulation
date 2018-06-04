@@ -17,9 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class LinkedTreeTest {
 
     @Test
-    void depthPostOrderIterator() {
+    void breadthIterator() {
 
         /*
+         *              0
+         *              |
          *              1
          *              |
          *              2
@@ -31,11 +33,48 @@ class LinkedTreeTest {
 
         Tree<Integer> tree = new LinkedTree<>(0);
 
-        tree.add(1,2,4);
-        tree.add(1,2,3,4);
+        tree.add(0,1,2,4);
+        tree.add(0,1,2,3,4);
+        tree.add(0,1,2,3,5);
+
+        assertEquals(7, tree.size());
+
+        Iterator<Integer> iterator = tree.breadthIterator();
+
+        assertEquals(0, iterator.next().intValue());
+        assertEquals(1, iterator.next().intValue());
+        assertEquals(2, iterator.next().intValue());
+        assertEquals(4, iterator.next().intValue());
+        assertEquals(3, iterator.next().intValue());
+        assertEquals(4, iterator.next().intValue());
+        assertEquals(5, iterator.next().intValue());
+        assertFalse(iterator.hasNext());
+
+
+    }
+
+    @Test
+    void depthIterator() {
+
+        /*
+         *              0
+         *              |
+         *              1
+         *              |
+         *              2
+         *            /  \
+         *           4    3
+         *               / \
+         *              4   5
+         */
+
+        Tree<Integer> tree = new LinkedTree<>(0);
+
+        tree.addWithRoot(0,1,2,4);
+        tree.addWithRoot(0,1,2,3,4);
         tree.add(1,2,3,5);
 
-        assertEquals(6, tree.size());
+        assertEquals(7, tree.size());
 
         Iterator<Integer> iterator = tree.depthIterator();
 
@@ -45,6 +84,7 @@ class LinkedTreeTest {
         assertEquals(3, iterator.next().intValue());
         assertEquals(2, iterator.next().intValue());
         assertEquals(1, iterator.next().intValue());
+        assertEquals(0, iterator.next().intValue());
 
         assertFalse(iterator.hasNext());
 

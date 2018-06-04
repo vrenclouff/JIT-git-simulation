@@ -24,11 +24,11 @@ public class Commit implements Option {
             }
 
             Map<String, String> hashedTree = staging.getHashedTree();
-            hashedTree.forEach((name, content) -> FileManager.createFile(name, content));
+            hashedTree.forEach((name, content) -> FileManager.createCommitFile(name, content));
             Map.Entry<String, String> firstFile = CollectionsUtils.lastEntry(hashedTree);
             String fileName = firstFile.getKey();
             String fileContent = String.format(firstFile.getValue(), message);
-            FileManager.createFile(fileName, fileContent);
+            FileManager.createCommitFile(fileName, fileContent);
             staging.removeStaging();
         }, this::printError);
     }

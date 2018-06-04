@@ -8,6 +8,7 @@ import de.oth.ajp.jit.utils.PathUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.List;
@@ -86,13 +87,23 @@ public class FileManager {
         }
     }
 
-    public static void createFile(String name, String content) {
+    public static void createCommitFile(String name, String content) {
+        createFile(PathUtils.get(PATH_OBJECTS, name), content);
+    }
+
+    public static void createFile(Path path, String content) {
         try {
-            Path path = PathUtils.get(PATH_OBJECTS, name);
+            if (Files.notExists(path)) {
+                Files.createDirectory(path.getParent());
+            }
             write(path, content.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void createFile(String path, String content) {
+        createFile(Paths.get(path), content);
     }
 
     public static String readStringContent(String[] pathComponents) {

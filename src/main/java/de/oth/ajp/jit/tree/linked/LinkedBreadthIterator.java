@@ -2,23 +2,29 @@ package de.oth.ajp.jit.tree.linked;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
-public class LinkedBreadthIterator<T extends Serializable> extends LinkedIterator {
+class LinkedBreadthIterator<T extends Serializable> implements LinkedIterator {
 
+    private final Stack<Node<T>> stack = new Stack<>();
 
-    public LinkedBreadthIterator(LinkedTree<T> tree) {
-        super(tree);
+    LinkedBreadthIterator(LinkedTree<T> tree) {
+        stack.add(tree.getRoot());
     }
 
     @Override
-    protected Iterator<Node<T>> createStack(LinkedTree tree) {
-        List<Node<T>> stack = new ArrayList<>(tree.size());
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
 
-        // TODO create stack
-
-        return stack.iterator();
+    @Override
+    public T next() {
+        Node<T> node = stack.pop();
+        List<Node<T>> children = node.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            stack.add(children.get(i));
+        }
+        return node.getValue();
     }
 }

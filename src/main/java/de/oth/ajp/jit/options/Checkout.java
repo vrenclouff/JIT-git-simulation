@@ -33,10 +33,15 @@ public class Checkout implements Option {
             printError();
         }
 
+        getFiles(headFile).forEach(FileManager::createFile);
+
+    }
+
+    private Map<String, String> getFiles(List<CommitFileHead> headFiles) {
         Stack<CommitFileHead> stack = new Stack<>();
         Map<String, String> files = new HashMap<>();
 
-        stack.addAll(headFile);
+        stack.addAll(headFiles);
 
         while (!stack.isEmpty()) {
             CommitFileHead actual = stack.pop();
@@ -54,8 +59,7 @@ public class Checkout implements Option {
                 break;
             }
         }
-
-
+        return files;
     }
 
     private void printError() {

@@ -9,12 +9,12 @@ import java.util.List;
 
 public class LinkedTree<T extends Serializable> implements Tree<T> {
 
-    protected final Node<T> root;
+    private final Node<T> root;
     private int size;
 
     public LinkedTree(T rootValue) {
         this.root = new Node<>(rootValue, null);
-        this.size = 0;
+        this.size = 1;
     }
 
     public LinkedTree(Node<T> root) {
@@ -22,38 +22,54 @@ public class LinkedTree<T extends Serializable> implements Tree<T> {
         this.size = 0;
     }
 
-    @Override
-    public void add(T... values) {
+    @SafeVarargs @Override
+    public final void add(T... values) {
+        add(List.of(values).iterator(), root);
+    }
+
+    @SafeVarargs @Override
+    public final void addWithRoot(T... values) {
         Iterator<T> valuesIterator = List.of(values).iterator();
-        Node node = root;
+        Node<T> node = root;
+
+        if (!node.getValue().equals(valuesIterator.next())) {
+            throw new IllegalArgumentException("Uzel nesedi");
+        }
+
+        add(valuesIterator, node);
+    }
+
+    private void add(Iterator<T> valuesIterator, Node<T> root) {
+        Node<T> node = root;
         branch:
         while (valuesIterator.hasNext()) {
-            List<Node<T>> children = node.getChildren();
             T value = valuesIterator.next();
+
+            List<Node<T>> children = node.getChildren();
             for (Node<T> child : children) {
                 if (child.getValue().equals(value)) {
                     node = child;
                     continue branch;
                 }
             }
-           node = newNodeInstance(value, node);
+            node = newNodeInstance(value, node);
             children.add(node);
             size++;
         }
     }
 
-    private Node<T> newNodeInstance(T value, Node node) {
+    private Node<T> newNodeInstance(T value, Node<T> node) {
         try {
             return root.getClass().getConstructor(value.getClass(), Node.class).newInstance(value, node);
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
-            return new Node(value, node);
+            return new Node<>(value, node);
         }
     }
 
-    @Override
-    public void remove(T... values) {
+    @SafeVarargs @Override
+    public final void remove(T... values) {
         Iterator<T> valuesIterator = List.of(values).iterator();
-        Node node = root;
+        Node<T> node = root;
         while (valuesIterator.hasNext()) {
             List<Node<T>> children = node.getChildren();
             T value = valuesIterator.next();
@@ -65,14 +81,14 @@ public class LinkedTree<T extends Serializable> implements Tree<T> {
         }
 
         while(!node.isRoot() && node.isLeaf()) {
-            Node parent = node.getParent();
+            Node<T> parent = node.getParent();
             parent.getChildren().remove(node);
             node = parent;
             size--;
         }
     }
 
-    public Node<T> getRoot() {
+    Node<T> getRoot() {
         return root;
     }
 
