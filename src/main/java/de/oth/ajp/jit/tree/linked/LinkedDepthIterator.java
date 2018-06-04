@@ -1,7 +1,9 @@
 package de.oth.ajp.jit.tree.linked;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
 
 class LinkedDepthIterator<T extends Serializable> implements LinkedIterator {

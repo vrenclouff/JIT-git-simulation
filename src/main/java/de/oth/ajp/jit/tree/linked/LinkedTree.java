@@ -33,7 +33,7 @@ public class LinkedTree<T extends Serializable> implements Tree<T> {
         Node<T> node = root;
 
         if (!node.getValue().equals(valuesIterator.next())) {
-            throw new IllegalArgumentException("Uzel nesedi");
+            throw new IllegalArgumentException("First value must be root value");
         }
 
         add(valuesIterator, node);
