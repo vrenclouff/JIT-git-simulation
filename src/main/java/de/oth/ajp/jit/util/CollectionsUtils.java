@@ -1,17 +1,24 @@
-package de.oth.ajp.jit.utils;
+package de.oth.ajp.jit.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
-public class CollectionsUtils {
+import java.util.*;
+import java.util.function.*;
+
+public final class CollectionsUtils {
+
+    private CollectionsUtils() {}
 
     public static <T> T get(T[] array, int index) {
         try {
             return array[index];
         } catch (IndexOutOfBoundsException e) {
             return null;
+        }
+    }
+
+    public static <T> void forEach(T[] array, BiConsumer<T, Integer> action) {
+        for (int i = 0; i < array.length; i++) {
+            action.accept(array[i], i);
         }
     }
 

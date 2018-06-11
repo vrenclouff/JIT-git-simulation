@@ -1,4 +1,4 @@
-package de.oth.ajp.jit.core;
+package de.oth.ajp.jit.domain;
 
 
 public enum  FileType {

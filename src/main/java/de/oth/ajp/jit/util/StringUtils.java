@@ -1,12 +1,15 @@
-package de.oth.ajp.jit.utils;
+package de.oth.ajp.jit.util;
 
+import java.io.File;
 
-public class StringUtils {
+public final class StringUtils {
+
+    private StringUtils() {}
 
     public static final String SPACE_DELIMITER = "\u001F";
     public static final String NEW_LINE = "\n";
     public static final String EMPTY = "";
-    public static final String PATH_DELIMITER = "/";
+    public static final String PATH_DELIMITER = File.separator;
 
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_RESET = "\u001B[0m";

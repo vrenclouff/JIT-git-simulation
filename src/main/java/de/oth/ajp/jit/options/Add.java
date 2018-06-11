@@ -1,9 +1,20 @@
 package de.oth.ajp.jit.options;
 
-import de.oth.ajp.jit.core.FileManager;
 import de.oth.ajp.jit.core.Option;
+import de.oth.ajp.jit.util.JitFiles;
+import de.oth.ajp.jit.util.Logger;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static de.oth.ajp.jit.util.JitFiles.modifyStaging;
+import static de.oth.ajp.jit.util.JitFiles.unchangedFilePaths;
+import static de.oth.ajp.jit.util.JitFiles.walk;
+import static de.oth.ajp.jit.util.Logger.print;
+import static java.util.List.of;
+import static java.util.stream.Collectors.toList;
 
 
 public class Add implements Option {
@@ -16,11 +27,34 @@ public class Add implements Option {
 
     @Override
     public void runProcess() {
-        List<String> files = file.equals(".") ? FileManager.loadAllFiles() : List.of(file);
-        FileManager.editStagingFile(staging -> files.forEach(staging::add), this::printError);
+        try {
+            List<String> unchangedPaths = unchangedFilePaths();
+            List<String> ignoredPaths = new ArrayList<>();
+            List<String> files = file.equals(".") ? walk().collect(toList()) : new ArrayList<>(of(file));
+            files.removeAll(unchangedPaths);
+            modifyStaging(st -> files.forEach(file -> {
+                if (JitFiles.isNotIgnored(file)) {
+                    st.add(file);
+                } else {
+                    ignoredPaths.add(file);
+                }
+            }));
+            printIgnoredFiles(ignoredPaths);
+        }catch (IOException e) {
+            printError(e.getMessage());
+        }
     }
 
-    private void printError() {
+    private void printIgnoredFiles(List<String> messages) {
+
+        if (!messages.isEmpty()) {
+            print("The following paths are ignored by one of your .jitignore files:");
+        }
+        messages.forEach(Logger::print);
+    }
+
+    private void printError(String message) {
         // TODO nepodarilo se nacist soubor
+        print("Neco se stalo");
     }
 }

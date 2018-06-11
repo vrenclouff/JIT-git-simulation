@@ -3,10 +3,12 @@ package de.oth.ajp.jit;
 import de.oth.ajp.jit.core.Option;
 import de.oth.ajp.jit.options.*;
 
-import static de.oth.ajp.jit.utils.CollectionsUtils.get;
+import static de.oth.ajp.jit.util.CollectionsUtils.get;
 
 
 public class Commands {
+
+    private Commands() {}
 
     interface CommandType {
         Option getOption(String param);
@@ -67,24 +69,5 @@ public class Commands {
         } else {
             throw new IllegalArgumentException("Neplatny argument");
         }
-
-//        String option = args[0];
-//        if (option.equals("init")) {
-//            return new Init();
-//        } else if (option.equals("add")) {
-//            return new Add(args[1]);
-//        } else if (option.equals("removeStaging")) {
-//            return new Remove(args[1]);
-//        } else if (option.equals("commit")) {
-//            return new Commit(args[1]);
-//        } else if (option.equals("checkout")) {
-//            return new Checkout(args[1]);
-//        } else if (option.equals("log")) {
-//            return null; // TODO
-//        } else if (option.equals("status")) {
-//            return null; // TODO
-//        } else {
-//            throw new IllegalArgumentException("Neplatny pocet argumentu");
-//        }
     }
 }

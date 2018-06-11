@@ -1,7 +1,10 @@
 package de.oth.ajp.jit.options;
 
-import de.oth.ajp.jit.core.FileManager;
 import de.oth.ajp.jit.core.Option;
+
+import java.io.IOException;
+
+import static de.oth.ajp.jit.util.JitFiles.modifyStaging;
 
 public class Remove implements Option {
 
@@ -13,10 +16,14 @@ public class Remove implements Option {
 
     @Override
     public void runProcess() {
-        FileManager.editStagingFile(staging -> staging.remove(file), this::printError);
+        try {
+            modifyStaging(st -> st.remove(file));
+        }catch (IOException e) {
+            printError(e.getMessage());
+        }
     }
 
-    private void printError() {
+    private void printError(String message) {
         // TODO nepodarilo se nacist soubor
     }
 }

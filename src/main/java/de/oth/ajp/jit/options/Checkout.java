@@ -1,23 +1,21 @@
 package de.oth.ajp.jit.options;
 
 
-import de.oth.ajp.jit.core.*;
-import de.oth.ajp.jit.utils.FileUtils;
+import de.oth.ajp.jit.core.Option;
+import de.oth.ajp.jit.util.Files;
+import de.oth.ajp.jit.util.JitFiles;
 
-import java.util.*;
+import java.io.IOException;
 
-import static de.oth.ajp.jit.core.FileManager.loadCommitFile;
-import static de.oth.ajp.jit.core.FileManager.loadCommits;
-import static de.oth.ajp.jit.core.FileManager.readCommitContent;
-import static de.oth.ajp.jit.utils.StringUtils.PATH_DELIMITER;
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
+import static de.oth.ajp.jit.util.JitFiles.walk;
+import static de.oth.ajp.jit.util.Logger.print;
+import static de.oth.ajp.jit.util.JitFiles.readCommits;
+import static java.nio.file.Paths.get;
+
 
 public class Checkout implements Option {
 
     private final String hash;
-
 
     public Checkout(String hash) {
         this.hash = hash;
@@ -25,44 +23,24 @@ public class Checkout implements Option {
 
     @Override
     public void runProcess() {
+        try {
+            walk().forEach(e -> {
+                try {
+                    java.nio.file.Files.deleteIfExists(get(e).getName(0));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            });
 
-        List<CommitFileHead> headFile = loadCommits().stream().filter(c -> c.getCommitHash().startsWith(hash)).findFirst().
-                map(CommitFile::getFiles).orElse(emptyList()).stream().map(FileUtils::convertToDescriptor).collect(toList());
+            readCommits().filter(c -> c.getHash().startsWith(hash))
+                    .findFirst().map(Files::readCommitTree)
+                    .ifPresentOrElse(list -> list.forEach(JitFiles::copyCommit), this::commitNotFound);
+        } catch (IOException e) {
 
-        if (headFile.isEmpty()) {
-            printError();
         }
-
-        getFiles(headFile).forEach(FileManager::createFile);
-
     }
 
-    private Map<String, String> getFiles(List<CommitFileHead> headFiles) {
-        Stack<CommitFileHead> stack = new Stack<>();
-        Map<String, String> files = new HashMap<>();
-
-        stack.addAll(headFiles);
-
-        while (!stack.isEmpty()) {
-            CommitFileHead actual = stack.pop();
-            switch (actual.getType()) {
-                case FILE: {
-                    files.put(actual.getPath(), readCommitContent(actual.getHash()));
-                }
-                break;
-                case DIRECTORY: {
-                    loadCommitFile(actual.getHash()).forEach(f -> {
-                        f.setPath(format("%s%s%s", actual.getPath(), PATH_DELIMITER,f.getPath()));
-                        stack.add(f);
-                    });
-                }
-                break;
-            }
-        }
-        return files;
-    }
-
-    private void printError() {
-        // TODO not found commit with this hash
+    private void commitNotFound() {
+        print("error: pathspec '%s' did not match any file(s) known to jit.", hash);
     }
 }
