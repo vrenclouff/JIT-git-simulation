@@ -9,7 +9,7 @@ $ ./install.sh
 ````
 #### Ignored files
 You can create **.jitignore** file and put into files which you do not want to track.
-````git exclude
+````bash
 target
 idea.iml
 ````
