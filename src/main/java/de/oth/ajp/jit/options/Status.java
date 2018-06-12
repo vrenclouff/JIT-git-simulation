@@ -42,7 +42,6 @@ public class Status implements Option {
 
             if (!trackedFiles.isEmpty()) {
                 print("\nChanges to be committed:");
-                print("\nChanges to be committed:");
                 print("\t(use \"jit remove <file>...\" to unstage)\n");
                 trackedFiles.forEach(f -> greenPrint("\t\t" + f));
             }
