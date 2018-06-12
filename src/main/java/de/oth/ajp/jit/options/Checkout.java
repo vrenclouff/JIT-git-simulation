@@ -31,12 +31,14 @@ public class Checkout implements Option {
         try {
             walk().map(Path::toFile).forEach(File::delete);
             Optional<CommitFile> optionalCommit;
+
             if (hash.equals("HEAD")) {
                 optionalCommit = readLastCommit();
             } else {
                 optionalCommit = readCommits().filter(c -> c.getHash().startsWith(hash)).findFirst();
 
             }
+
             optionalCommit.map(Files::readCommitTree)
                     .ifPresentOrElse(list -> list.forEach(JitFiles::copyCommit), this::commitNotFound);
         } catch (IOException e) {
