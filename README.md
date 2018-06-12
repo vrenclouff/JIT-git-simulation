@@ -1,8 +1,6 @@
-# Jit 
-
-blablabla
-
-
+# Jit
+Program **Jit** is program which imitates functionality of **Git**. Allows basic commands like **init**, **add**, **remove**, **status**, **log**, **checkout** and **commit**.
+The program is writed in Java 8 and for compilation is used **Maven**.
 
 #### Install on Linux/Unix
 For the install you can use prepared bash script which compiles source code using **Maven** and creates **jit** alias.
