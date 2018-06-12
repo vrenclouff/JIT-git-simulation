@@ -5,7 +5,6 @@ import de.oth.ajp.jit.core.Staging;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static de.oth.ajp.jit.util.JitFiles.*;
 import static de.oth.ajp.jit.util.Logger.greenPrint;
@@ -25,7 +24,7 @@ public class Status implements Option {
         List<String> unchangedFiles;
 
         try {
-            allFiles = walk().collect(toList());
+            allFiles = filesWalk().collect(toList());
 
             unchangedFiles = unchangedFilePaths();
             trackedFiles = readStaging().map(Staging::getTrackedFiles).orElse(emptyList());

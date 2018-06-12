@@ -7,11 +7,10 @@ import de.oth.ajp.jit.util.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static de.oth.ajp.jit.util.JitFiles.modifyStaging;
 import static de.oth.ajp.jit.util.JitFiles.unchangedFilePaths;
-import static de.oth.ajp.jit.util.JitFiles.walk;
+import static de.oth.ajp.jit.util.JitFiles.filesWalk;
 import static de.oth.ajp.jit.util.Logger.print;
 import static java.util.List.of;
 import static java.util.stream.Collectors.toList;
@@ -30,7 +29,7 @@ public class Add implements Option {
         try {
             List<String> unchangedPaths = unchangedFilePaths();
             List<String> ignoredPaths = new ArrayList<>();
-            List<String> files = file.equals(".") ? walk().collect(toList()) : new ArrayList<>(of(file));
+            List<String> files = file.equals(".") ? filesWalk().collect(toList()) : new ArrayList<>(of(file));
             files.removeAll(unchangedPaths);
             modifyStaging(st -> files.forEach(file -> {
                 if (JitFiles.isNotIgnored(file)) {

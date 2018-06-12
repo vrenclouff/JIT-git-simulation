@@ -121,13 +121,19 @@ public final class JitFiles {
         }
     }
 
-    public static Stream<String> walk() throws IOException {
+    public static Stream<Path> walk() throws IOException {
         Path actualPath = get(EMPTY);
-
         String pathString = actualPath.toUri().getPath();
-        return Files.walk(actualPath).filter(Files::isRegularFile)
+        return Files.walk(actualPath)
+                .sorted(Comparator.reverseOrder())
                 .map(e -> toRelative(e, pathString))
-                .filter(JitFiles::isNotIgnored);
+                .filter(JitFiles::isNotIgnored)
+                .map(Paths::get);
+
+    }
+
+    public static Stream<String> filesWalk() throws IOException {
+        return walk().filter(Files::isRegularFile).map(Path::toString);
     }
 
     public static boolean isNotIgnored(String path) {
