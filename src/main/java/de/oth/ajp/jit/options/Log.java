@@ -5,7 +5,13 @@ import de.oth.ajp.jit.core.Option;
 
 import static de.oth.ajp.jit.util.JitFiles.readCommits;
 
-
+/**
+ * Class prints all commits.
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Log implements Option {
 
     @Override

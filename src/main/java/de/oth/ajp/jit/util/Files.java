@@ -22,10 +22,23 @@ import static java.nio.file.Files.readAllLines;
 import static java.nio.file.Files.readAttributes;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Class extends functionality of {@link java.nio.file.Files}.
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public final class Files {
 
     private Files() {}
 
+    /**
+     * Returns first line in file.
+     * @param path file
+     * @return first line in file
+     * @throws IOException
+     */
     public static String readFirstLine(Path path) throws IOException {
         try (BufferedReader reader = newBufferedReader(path)) {
             String line = reader.readLine();
@@ -35,6 +48,11 @@ public final class Files {
         }
     }
 
+    /**
+     * Checks if the file is commit file
+     * @param path path to commit file
+     * @return true or false
+     */
     public static boolean isCommitFile(Path path) {
         try {
             String firstLine = readFirstLine(path);
@@ -46,6 +64,11 @@ public final class Files {
         }
     }
 
+    /**
+     * Converts path (commit file) to class {@link CommitFile} represents committed file
+     * @param path path to commit file
+     * @return instance of committed file
+     */
     public static CommitFile readCommitFile(Path path) {
         try {
 
@@ -73,6 +96,11 @@ public final class Files {
         }
     }
 
+    /**
+     * Loads root commit and creates list of committed files.
+     * @param root root commit
+     * @return list of files which was committed
+     */
     public static List<FileDescriptor> readCommitTree(CommitFile root) {
         List<FileDescriptor> files = new LinkedList<>();
         Stack<CommitFile> stack = new Stack<>();

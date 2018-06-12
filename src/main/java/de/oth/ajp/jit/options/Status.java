@@ -13,7 +13,17 @@ import static de.oth.ajp.jit.util.Logger.redPrint;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-
+/**
+ * Class Status print actual state in staging file.
+ * 1. At first are loaded all files which can by tracked. (files which are filtered out in .jitignore).
+ * 2. loaded all files which are unchanged with commits before.
+ * 3. loaded files which are in staging
+ * 4. keept only files which can be tracked.
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Status implements Option {
 
     @Override

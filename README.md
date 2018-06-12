@@ -9,6 +9,13 @@ For the install you can use prepared bash script which compiles source code usin
 ````bash
 $ ./install.sh
 ````
+#### Ignored files
+You can create **.jitignore** file and put into files which you do not want to track.
+````git exclude
+target
+idea.iml
+````
+
 
 #### Init
 Initialization for creating default folders.

@@ -7,6 +7,13 @@ import java.util.Objects;
 
 import static java.nio.file.Paths.get;
 
+/**
+ * Class describes file/folder. This class is used as value for tree.
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class FileDescriptor implements Serializable {
 
     private final String name;
@@ -15,7 +22,12 @@ public class FileDescriptor implements Serializable {
 
     private transient Path path;
 
-
+    /**
+     * Constructor sets all information about file
+     * @param name name of node/file
+     * @param type type of file
+     * @param hash hashed file
+     */
     public FileDescriptor(String name, FileType type, String hash) {
         this.name = name;
         this.path = null;

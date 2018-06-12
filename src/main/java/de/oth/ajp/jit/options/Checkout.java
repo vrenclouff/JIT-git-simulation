@@ -16,7 +16,16 @@ import static de.oth.ajp.jit.util.JitFiles.readLastCommit;
 import static de.oth.ajp.jit.util.JitFiles.walk;
 import static de.oth.ajp.jit.util.Logger.print;
 
-
+/**
+ * Class switched actual context to the context which was committed.
+ * 1. at first are deleted all files in actual directory which are followed
+ * 2. read relevant commit
+ * 3. build tree of commits and created new files and directories
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Checkout implements Option {
 
     private final String hash;

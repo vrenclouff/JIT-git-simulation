@@ -5,7 +5,13 @@ import de.oth.ajp.jit.options.*;
 
 import static de.oth.ajp.jit.util.CollectionsUtils.get;
 
-
+/**
+ * Class parse input parameters to the option.
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Commands {
 
     private Commands() {}
@@ -61,6 +67,11 @@ public class Commands {
         ;
     }
 
+    /**
+     * Parse input parameters to the option
+     * @param args input parameters
+     * @return option
+     */
     public static Option parseArgs(String... args) {
         String optionString = get(args, 0).toUpperCase();
         Type optionType = Type.valueOf(optionString);

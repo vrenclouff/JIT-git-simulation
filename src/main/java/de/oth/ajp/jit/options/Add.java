@@ -15,7 +15,17 @@ import static de.oth.ajp.jit.util.Logger.print;
 import static java.util.List.of;
 import static java.util.stream.Collectors.toList;
 
-
+/**
+ * Class added new file to staging.
+ * 1. at first are loaded all unchanged files
+ * 2. created list of paths which could be added to staging
+ * 3. removed files which are unchanged
+ * 4. added new or changed files to staging
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Add implements Option {
 
     private final String file;
@@ -40,7 +50,7 @@ public class Add implements Option {
             }));
             printIgnoredFiles(ignoredPaths);
         }catch (IOException e) {
-            printError(e.getMessage());
+            print(e.getMessage());
         }
     }
 
@@ -50,10 +60,5 @@ public class Add implements Option {
             print("The following paths are ignored by one of your .jitignore files:");
         }
         messages.forEach(Logger::print);
-    }
-
-    private void printError(String message) {
-        // TODO nepodarilo se nacist soubor
-        print("Neco se stalo");
     }
 }

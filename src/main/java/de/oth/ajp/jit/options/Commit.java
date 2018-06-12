@@ -13,6 +13,16 @@ import static de.oth.ajp.jit.util.JitFiles.*;
 import static de.oth.ajp.jit.util.Logger.print;
 import static java.lang.String.format;
 
+/**
+ * Class creates commits from staging.
+ * 1. at first are all nodes in tree hashed
+ * 2. last entry in map represents root of commit and it is saved to file system
+ * 3. other nodes are saved to file system
+ *
+ * @author Lukas Cerny
+ * @since 1.8
+ * @version 1.0
+ */
 public class Commit implements Option {
 
     private final String message;
