@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 import static de.oth.ajp.jit.util.PathUtils.toRelative;
 import static de.oth.ajp.jit.util.SerializableUtils.toBytes;
 import static de.oth.ajp.jit.util.SerializableUtils.toObject;
-import static de.oth.ajp.jit.util.StringUtils.EMPTY;
 import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Optional.of;
@@ -31,25 +30,39 @@ public final class JitFiles {
     private static final String[] SUB_FOLDERS = {"objects", "staging"};
     private static final String STAGING_FILE = "staging.ser";
     private static final String JIT_IGNORE_FILE = ".jitignore";
+    private static final String WORKING_DIR = System.getProperty("user.dir");
 
-    private static final Path PATH_STAGING, PATH_OBJECTS;
+
+    private static final Path PATH_STAGING, PATH_OBJECTS, WORKING_PATH;
 
     private static final List<String> IGNORED_FILES;
 
     static {
         PATH_OBJECTS = get(FOLDER, SUB_FOLDERS[0]);
         PATH_STAGING = get(FOLDER, SUB_FOLDERS[1], STAGING_FILE);
+        WORKING_PATH = get(WORKING_DIR);
         IGNORED_FILES = readIgnoredFiles(get(JIT_IGNORE_FILE));
     }
 
     private static List<String> readIgnoredFiles(Path ignoreFile) {
-        try {
-            List<String> files = Files.readAllLines(ignoreFile);
-            files.add(FOLDER);
-            return files;
-        } catch (IOException e) {
-            return Collections.emptyList();
+
+        List<String> files;
+
+        if (Files.exists(ignoreFile)) {
+            try {
+                files = Files.readAllLines(ignoreFile);
+            } catch (IOException e) {
+                files = new ArrayList<>(3);
+            }
+        } else {
+            files = new ArrayList<>(3);
         }
+
+        files.add(FOLDER);
+        files.add(PATH_STAGING.toString());
+        files.add(JIT_IGNORE_FILE);
+
+        return files;
     }
 
     public static void createMainDirectories() throws IOException {
@@ -122,9 +135,8 @@ public final class JitFiles {
     }
 
     public static Stream<Path> walk() throws IOException {
-        Path actualPath = get(EMPTY);
-        String pathString = actualPath.toUri().getPath();
-        return Files.walk(actualPath)
+        String pathString = WORKING_PATH.toUri().getPath();
+        return Files.walk(WORKING_PATH)
                 .sorted(Comparator.reverseOrder())
                 .map(e -> toRelative(e, pathString))
                 .filter(JitFiles::isNotIgnored)
