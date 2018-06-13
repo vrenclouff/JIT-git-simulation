@@ -1,14 +1,14 @@
 # Jit
-Program **Jit** is program which imitates functionality of **Git**. Allows basic commands like **init**, **add**, **remove**, **status**, **log**, **checkout** and **commit**.
+**Jit** is a program which imitates functionality of the **Git**. Allows basic commands like **init**, **add**, **remove**, **status**, **log**, **checkout** and **commit**.
 The program is writed in Java 8 and for compilation is used **Maven**.
 
 #### Install on Linux/Unix
-For the install you can use prepared bash script which compiles source code using **Maven** and creates **jit** alias.
+For the install you can use prepared bash script which compiles source code using **Maven** and creates a **jit** alias.
 ````bash
 $ ./install.sh
 ````
 #### Ignored files
-You can create **.jitignore** file and put into files which you do not want to track.
+You can create **.jitignore** file and put into some files which you do not want to track.
 ````bash
 target
 idea.iml
@@ -16,7 +16,7 @@ idea.iml
 
 
 #### Init
-Initialization for creating default folders.
+Initialization repository.
 ````bash
 $ jit init
 
@@ -24,24 +24,24 @@ Initialized empty Jit repository.
 ````
 
 #### Add
-To add a single file to staging.
+Adding a single file to staging.
 ````bash
 $ jit add <file>
 ````
 
-To add all files to staging.
+Adding all files to staging.
 ````bash
 $ jit add .
 ````
 
 #### Remove
-To remove a file.
+Removing a file from staging.
 ````bash
 $ jit remove <file>
 ````
 
 #### Status
-Status shows tracked and untracked files. Only tracked files could be committed.
+Status shows tracked and untracked files. Only tracked files can be committed.
 
 No files in staging
 ````bash

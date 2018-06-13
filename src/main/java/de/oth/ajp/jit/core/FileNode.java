@@ -16,7 +16,7 @@ import static de.oth.ajp.jit.util.StringUtils.SPACE_DELIMITER;
 
 
 /**
- * Class extends {@link TreeNode} and added hasing functionality.
+ * Class extends {@link TreeNode} and added hashing functionality.
  *
  * @author Lukas Cerny
  * @since 1.8
