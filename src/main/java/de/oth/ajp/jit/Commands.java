@@ -2,8 +2,10 @@ package de.oth.ajp.jit;
 
 import de.oth.ajp.jit.core.Option;
 import de.oth.ajp.jit.options.*;
+import de.oth.ajp.jit.util.Logger;
 
 import static de.oth.ajp.jit.util.CollectionsUtils.get;
+import static de.oth.ajp.jit.util.Logger.print;
 
 /**
  * Class parse input parameters to the option.
@@ -73,12 +75,13 @@ public class Commands {
      * @return option
      */
     public static Option parseArgs(String... args) {
-        String optionString = get(args, 0).toUpperCase();
-        Type optionType = Type.valueOf(optionString);
-        if (optionType != null) {
-            return optionType.getOption(get(args, 1));
-        } else {
-            throw new IllegalArgumentException("Neplatny argument");
+        String optionString = get(args, 0);
+        try {
+            return Type.valueOf(optionString.toUpperCase()).getOption(get(args, 1));
+        } catch (java.lang.IllegalArgumentException e) {
+            print("jit: '%s' is not a jit command.", optionString);
+            System.exit(1);
         }
+        return null;
     }
 }
