@@ -5,6 +5,9 @@ import de.oth.ajp.jit.util.JitFiles;
 import de.oth.ajp.jit.util.Logger;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,13 @@ public class Add implements Option {
 
     @Override
     public void runProcess() {
+
+        Path filePath = Paths.get(file);
+        if (Files.notExists(filePath) || !Files.isRegularFile(filePath)) {
+            print("fatal: pathspec '%s' did not match any files", file);
+            return;
+        }
+
         try {
             List<String> unchangedPaths = unchangedFilePaths();
             List<String> ignoredPaths = new ArrayList<>();
