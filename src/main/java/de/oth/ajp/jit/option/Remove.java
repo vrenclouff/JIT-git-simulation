@@ -1,9 +1,7 @@
-package de.oth.ajp.jit.options;
+package de.oth.ajp.jit.option;
 
 import de.oth.ajp.jit.core.Option;
 import de.oth.ajp.jit.util.Logger;
-
-import java.io.IOException;
 
 import static de.oth.ajp.jit.util.JitFiles.modifyStaging;
 

@@ -1,4 +1,4 @@
-package de.oth.ajp.jit.options;
+package de.oth.ajp.jit.option;
 
 import de.oth.ajp.jit.util.Logger;
 import de.oth.ajp.jit.core.Option;

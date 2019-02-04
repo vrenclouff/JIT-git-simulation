@@ -1,8 +1,7 @@
 package de.oth.ajp.jit;
 
 import de.oth.ajp.jit.core.Option;
-import de.oth.ajp.jit.options.*;
-import de.oth.ajp.jit.util.Logger;
+import de.oth.ajp.jit.option.*;
 
 import static de.oth.ajp.jit.util.CollectionsUtils.get;
 import static de.oth.ajp.jit.util.Logger.print;
